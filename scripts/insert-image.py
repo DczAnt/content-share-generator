@@ -19,6 +19,7 @@ insert-image.py — 公众号长文配图插入脚本
        python insert-image.py article.md --images a.png b.png c.png d.png -o out.md
 
 可选：
+  --auto-style 根据文章标题/内容关键词自动选择套系（D硬核/E数据/C方法论/B深度/A通用）
   --verify     检查图片文件是否存在，缺失则警告
   --in-place   原地改写输入文件
   --width N    给图片加 HTML 宽度属性（公众号排版用），如 --width 100 表示 width="100%"
@@ -50,6 +51,45 @@ WX_FILE_NAMES = [
     "wx-data-table.png",
     "wx-cta.png",
 ]
+
+AUTO_STYLE_KEYWORDS: dict[str, list[str]] = {
+    "D": ["硬核", "终端", "底层", "内核", "驱动", "编译", "交叉编译", "glibc", "abi",
+          "npu", "gpu", "drm", "egl", "内存", "链接", "固件", "嵌入式", "工具链",
+          "sysroot", "二进制", "elf", "汇编", "寄存器", "中断", "调度"],
+    "E": ["数据", "报告", "优化", "性能", "基准", "fps", "延迟", "吞吐", "对比",
+          "实测", "量化", "benchmark", "压测", "监控", "指标", "提升", "倍速"],
+    "C": ["方法论", "设计模式", "架构", "原则", "最佳实践", "如何", "为什么",
+          "思考", "简洁", "哲学", "范式", "心智模型", "认知"],
+    "B": ["怀旧", "历史", "演进", "踩坑实录", "排查实录", "复盘", "踩坑",
+          "填坑", "血泪", "教训", "走过的"],
+}
+
+
+def auto_style_set(text: str) -> str:
+    """根据文章标题+前几段内容关键词自动选择配图套系，返回 A/B/C/D/E"""
+    lines = text.splitlines()
+    title = ""
+    for line in lines:
+        line = line.strip()
+        if line.startswith("# "):
+            title = line[2:]
+            break
+
+    sample = title + " " + " ".join(
+        line.strip() for line in lines[:30] if line.strip() and not line.startswith(">")
+    )
+    sample_lower = sample.lower()
+
+    scores: dict[str, int] = {"A": 0, "B": 0, "C": 0, "D": 0, "E": 0}
+    for style, keywords in AUTO_STYLE_KEYWORDS.items():
+        for kw in keywords:
+            if kw.lower() in sample_lower:
+                scores[style] += 1
+
+    best = max(scores, key=lambda s: scores[s])
+    if scores[best] == 0:
+        return "A"
+    return best
 
 
 def parse_markers(lines: list[str]) -> list[tuple[int, str, str, str | None]]:
@@ -101,6 +141,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("article", type=Path, help="输入 Markdown 文件")
     ap.add_argument("--style-set", choices=["A", "B", "C", "D", "E", "a", "b", "c", "d", "e"],
                     help="公众号配图套系，自动把路径里的 gzh/ → gzh-X/")
+    ap.add_argument("--auto-style", action="store_true",
+                    help="根据文章标题/内容关键词自动选择套系（D硬核/E数据/C方法论/B深度/A通用）")
     ap.add_argument("--images", nargs="+", metavar="PATH",
                     help="自定义图片路径，按标记出现顺序映射")
     ap.add_argument("--output", "-o", type=Path, help="输出文件（默认 stdout）")
@@ -113,11 +155,15 @@ def main(argv: list[str] | None = None) -> int:
     if args.in_place and args.output:
         ap.error("--in-place 和 --output 互斥")
 
+    if args.auto_style and args.style_set:
+        ap.error("--auto-style 和 --style-set 互斥")
+
     if not args.article.exists():
         print(f"错误：输入文件不存在：{args.article}", file=sys.stderr)
         return 1
 
-    lines = args.article.read_text(encoding="utf-8").splitlines(keepends=False)
+    article_text = args.article.read_text(encoding="utf-8")
+    lines = article_text.splitlines(keepends=False)
     markers = parse_markers(lines)
 
     if not markers:
@@ -127,6 +173,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"警告：给了 {len(args.images)} 张图，但文中有 {len(markers)} 个标记，"
               f"不足的保留原标记", file=sys.stderr)
 
+    style_set = args.style_set
+    if args.auto_style:
+        style_set = auto_style_set(article_text)
+        print(f"自动选择套系：{style_set}", file=sys.stderr)
+
     base_dir = args.article.parent
     width = args.width
 
@@ -135,8 +186,8 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.images and idx < len(args.images):
             new_path = args.images[idx]
-        elif args.style_set:
-            new_path = apply_style_set(path, args.style_set)
+        elif style_set:
+            new_path = apply_style_set(path, style_set)
 
         if args.verify:
             if verify_image(new_path, base_dir):

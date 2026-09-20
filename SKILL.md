@@ -8,7 +8,7 @@ description: >-
   支持多 skill 路由：指定 skill 名加载已沉淀事实底库，或给 skill 路径现场提炼；
   内置统一叙事公式、三平台模板与图卡模板，保证产出数字准确、仓库地址醒目、定位为技术分享。
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
-version: "2.5.0"
+version: "2.6.0"
 ---
 
 # 技术分享内容生成技能
@@ -20,6 +20,7 @@ version: "2.5.0"
 > v2.3.0 起公众号扩至 **5 套风格**（+C 极简水墨 / D 赛博暗夜 / E 杂志双色调），按选题调性选套系。
 > v2.4.0 起新增 `scripts/insert-image.py`：把长文里的 📷 标记一键替换为 Markdown 图片语法，支持套系切换/自定义图片/HTML 宽度属性。
 > v2.5.0 起新增 `scripts/md2wechat.py`：Markdown 一键转公众号富文本 HTML（CSS 全内联化 + 代码语法高亮），粘贴公众号编辑器即用。
+> v2.6.0 起新增 `scripts/publish.py` 一键发布 + `insert-image.py --auto-style` 自动选套系：一条命令完成选套系→插图→转HTML→开浏览器，产出的 HTML 可直接粘贴公众号发布。
 
 ---
 
@@ -38,8 +39,9 @@ templates/douyin-script.md        # 抖音口播脚本模板（分镜表）
 templates/tech-article.md         # 技术长文模板（公众号/知乎/CSDN 通用）
 templates/cards/                  # 朋友圈图卡 HTML 模板 + Edge 渲染说明
 scripts/                          # 自动化脚本
-  ├── insert-image.py             # 📷 标记 → Markdown 图片语法（套系切换/自定义/HTML 宽度）
-  └── md2wechat.py                # Markdown → 公众号富文本 HTML（CSS 内联化 + 代码高亮）
+  ├── insert-image.py             # 📷 标记 → Markdown 图片语法（--auto-style 自动选套系）
+  ├── md2wechat.py                # Markdown → 公众号富文本 HTML（CSS 内联化 + 代码高亮）
+  └── publish.py                  # 一键发布：自动选套系 → 插图 → 转HTML → 开浏览器
 examples/                         # 已验证成品范例（few-shot 对照）
 ```
 
@@ -97,6 +99,23 @@ start 长文.html
 ```
 
 脚本内置 `tech` 主题（技术文章风格：深色代码块 + Pygments monokai 高亮 + 左色条标题 + 全边框表格）。图片保留路径占位，发布时在公众号编辑器手动上传替换。
+
+### 1.5 一键发布（全自动，推荐）
+
+`scripts/publish.py` 串联上述全链路，一条命令产出可发布的公众号 HTML：
+
+```bash
+# 全自动：自动选套系 → 插图 → 转HTML → 开浏览器
+python scripts/publish.py 长文.md
+
+# 手动指定套系
+python scripts/publish.py 长文.md --style-set E
+
+# 不自动开浏览器
+python scripts/publish.py 长文.md --no-open
+```
+
+`--auto-style` 关键词匹配规则：D 硬核/终端/编译/底层 → E 数据/性能/优化 → C 方法论/架构 → B 踩坑/复盘 → A 通用（默认）。08 GLIBC 文章自动选中 D 套系。
 
 ## 二、平台路由
 
