@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1080px; height:1440px; background:#faf8f3;
+    background-image:
+      linear-gradient(rgba(44,62,80,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(44,62,80,.05) 1px, transparent 1px);
+    background-size:32px 32px;
+    font-family:'KaiTi','STKaiti','Microsoft YaHei',sans-serif; color:#2c3e50;
+    display:flex; flex-direction:column; padding:64px 72px; overflow:hidden; position:relative;
+  }
+  .tag { font-size:24px; color:#c0392b; letter-spacing:2px; font-weight:700; }
+  .tag::after { content:'  ✎'; color:#e74c3c; }
+  .title-area { margin-top:20px; position:relative; }
+  h1 { font-size:78px; line-height:1.25; font-weight:700; color:#2c3e50; }
+  h1 .red { color:#c0392b; }
+  .underline { position:absolute; bottom:-8px; left:0; width:420px; height:6px; }
+  .note { margin-top:48px; background:#fef9c3; border:2px solid #e6b800; border-radius:4px 16px 4px 16px; padding:28px 32px; transform:rotate(-1.5deg); box-shadow:4px 5px 0 rgba(44,62,80,.12); }
+  .note .label { font-size:22px; color:#8b6914; font-weight:700; margin-bottom:10px; }
+  .note .code { font-family:'Consolas',monospace; font-size:26px; color:#2c3e50; line-height:1.8; }
+  .note .code .err { color:#c0392b; font-weight:700; }
+  .note .code .dim { color:#7f8c8d; }
+  .arrow-down { margin:24px auto; text-align:center; font-size:40px; color:#e74c3c; }
+  .analysis { margin-top:8px; font-size:28px; line-height:1.8; color:#34495e; }
+  .analysis .key { background:#e8f5e9; padding:2px 10px; border-radius:4px; color:#1b5e20; font-weight:700; }
+  .analysis .bad { background:#fce4ec; padding:2px 10px; border-radius:4px; color:#b71c1c; font-weight:700; }
+  .hand-box { margin-top:28px; border:3px solid #2c3e50; border-radius:12px 28px 12px 28px; padding:24px 28px; position:relative; }
+  .hand-box::before { content:'💡'; position:absolute; top:-18px; left:24px; font-size:36px; background:#faf8f3; padding:0 6px; }
+  .hand-box .text { font-size:26px; line-height:1.7; color:#2c3e50; }
+  .hand-box .text b { color:#c0392b; }
+  .foot { margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end; border-top:2px dashed #bdc3c7; padding-top:28px; }
+  .repo { font-family:'Consolas',monospace; font-size:26px; color:#2980b9; font-weight:700; }
+  .idx { font-size:24px; color:#95a5a6; font-style:italic; }
+</style>
+</head>
+<body>
+  <div class="tag">RK3XX 踩坑实录 · #01</div>
+  <div class="title-area">
+    <h1>编译过了<br><span class="red">上板就崩？</span></h1>
+    <svg class="underline" viewBox="0 0 420 6"><path d="M2,3 Q105,1 210,3 T418,3" stroke="#e74c3c" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+  </div>
+  <div class="note">
+    <div class="label">📋 报错信息</div>
+    <div class="code">
+      <span class="dim">$</span> ./demo<br>
+      <span class="err">version `GLIBC_2.34' not found</span><br>
+      <span class="dim">(required by ./demo)</span>
+    </div>
+  </div>
+  <div class="arrow-down">↓</div>
+  <div class="analysis">
+    容器 glibc <span class="bad">2.35</span> 编译<br>
+    板子 glibc <span class="bad">2.31</span> 运行<br>
+    → 符号版本 <span class="key">不匹配</span>，必崩
+  </div>
+  <div class="hand-box">
+    <div class="text">十个人九个中过 <b>GLIBC 版本地狱</b><br>编译好好的，一 scp 上去就 GG</div>
+  </div>
+  <div class="foot">
+    <span class="repo">github.com/DczAnt/rk3xx-chip-dev</span>
+    <span class="idx">01/03 · 套系C</span>
+  </div>
+</body>
+</html>

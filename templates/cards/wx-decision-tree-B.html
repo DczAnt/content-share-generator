@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1080px; height:720px; background:#f4ecd8;
+    background-image:radial-gradient(ellipse at 20% 20%, rgba(180,160,120,.12), transparent 55%);
+    font-family:'Georgia','Times New Roman',serif; color:#2c2416;
+    padding:44px 56px; overflow:hidden; position:relative;
+  }
+  .noise { position:absolute; inset:0; opacity:.04; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .head { display:flex; align-items:baseline; gap:14px; position:relative; z-index:2; }
+  .head .num { font-family:'Georgia',serif; font-size:46px; color:#c84630; font-weight:700; font-style:italic; line-height:1; }
+  .head .title { font-size:28px; font-weight:700; }
+  .head .title em { font-style:italic; color:#c84630; }
+  .question { margin-top:16px; padding:12px 20px; background:#e6dcc0; border:2px solid #8b7d6f; border-radius:3px 12px 3px 12px; font-size:17px; display:inline-block; transform:rotate(-.5deg); position:relative; z-index:2; }
+  .question code { font-family:'Consolas',monospace; font-size:15px; background:#2c2416; color:#f4ecd8; padding:2px 8px; border-radius:2px; }
+  .branches { margin-top:22px; display:flex; gap:22px; position:relative; z-index:2; }
+  .sticky { flex:1; padding:18px 20px; border-radius:3px 14px 3px 14px; box-shadow:3px 4px 0 rgba(44,36,22,.15); position:relative; }
+  .sticky.bad { background:#f0d6c8; border:2px solid #c84630; transform:rotate(1deg); }
+  .sticky.good { background:#d4e0c8; border:2px solid #5a7a3a; transform:rotate(-.7deg); }
+  .sticky .cond { font-family:'Consolas',monospace; font-size:13px; font-weight:700; padding:3px 10px; border-radius:2px; display:inline-block; margin-bottom:10px; }
+  .sticky.bad .cond { background:#c84630; color:#f4ecd8; }
+  .sticky.good .cond { background:#5a7a3a; color:#f4ecd8; }
+  .sticky h3 { font-size:17px; margin-bottom:7px; font-family:'Microsoft YaHei',sans-serif; }
+  .sticky .desc { font-size:13px; color:#5a4d3f; line-height:1.55; margin-bottom:9px; font-family:'Microsoft YaHei',sans-serif; }
+  .sticky .cmd { font-family:'Consolas',monospace; font-size:12px; color:#2c2416; background:rgba(255,255,255,.5); padding:8px 11px; border-radius:4px; line-height:1.7; border:1px dashed rgba(44,36,22,.3); }
+  .sticky .cmd .g { color:#3a5a1a; } .sticky .cmd .r { color:#c84630; } .sticky .cmd .d { color:#8b7d6f; }
+  .sticky .result { margin-top:7px; font-family:'Consolas',monospace; font-size:12px; font-weight:700; }
+  .sticky.bad .result { color:#c84630; }
+  .sticky.good .result { color:#3a5a1a; }
+  .conclusion { margin-top:18px; padding:14px 22px; background:#2c2416; color:#f4ecd8; border-radius:6px; font-size:15px; position:relative; z-index:2; display:flex; align-items:center; gap:10px; font-family:'Microsoft YaHei',sans-serif; }
+  .conclusion .icon { color:#d4a843; font-size:18px; }
+  .conclusion b { color:#d4a843; }
+  .conclusion code { font-family:'Consolas',monospace; background:rgba(212,168,67,.15); color:#d4a843; padding:2px 7px; border-radius:3px; font-size:14px; }
+  .foot { position:absolute; left:56px; bottom:20px; right:56px; z-index:2; display:flex; justify-content:space-between; align-items:center; font-family:'Consolas',monospace; font-size:13px; color:#8b7d6f; }
+  .foot .repo { color:#2a5f8f; font-weight:600; border-bottom:1px solid #c84630; }
+  .foot .idx { letter-spacing:3px; font-style:italic; font-family:'Georgia',serif; }
+</style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="head">
+    <div class="num">03</div>
+    <div class="title">交叉编译 <em>决策树</em>：选对路径一次过</div>
+  </div>
+  <div class="question">板子报 <code>GLIBC_2.34 not found</code>，先量：<code>ldd --version</code></div>
+  <div class="branches">
+    <div class="sticky bad">
+      <span class="cond">glibc &lt; 2.34</span>
+      <h3>容器 2.35 直编</h3>
+      <div class="desc">产物埋了 2.34 符号引用，板子没有 → 必崩</div>
+      <div class="cmd"><span class="r">✗</span> ./demo<br><span class="d">version not found</span></div>
+      <div class="result">✗ 拒绝加载</div>
+    </div>
+    <div class="sticky good">
+      <span class="cond">对齐工具链</span>
+      <h3>板子 sysroot 重编</h3>
+      <div class="desc">用板子 crt 三要素 + --sysroot</div>
+      <div class="cmd"><span class="g">✓</span> --sysroot=board_fs<br><span class="g">✓</span> -nostartfiles</div>
+      <div class="result">✓ 正常运行</div>
+    </div>
+    <div class="sticky good">
+      <span class="cond">或 -static</span>
+      <h3>静态链接兜底</h3>
+      <div class="desc">零 libc 依赖，体积大但最稳</div>
+      <div class="cmd"><span class="g">✓</span> g++ -static ...<br><span class="d">not dynamic exec</span></div>
+      <div class="result">✓ 任何板能跑</div>
+    </div>
+  </div>
+  <div class="conclusion">
+    <span class="icon">💡</span>
+    <span>记住一条：<b>板子 glibc = 编译容器 glibc</b>，或直接 <code>-static</code></span>
+  </div>
+  <div class="foot">
+    <span class="repo">github.com/DczAnt/rk3xx-chip-dev</span>
+    <span class="idx">02 · 套系 B</span>
+  </div>
+</body>
+</html>

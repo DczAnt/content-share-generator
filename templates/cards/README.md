@@ -1,12 +1,20 @@
-# 朋友圈图卡模板（HTML → PNG 自动渲染）
+# 朋友圈 / 公众号图卡模板（HTML → PNG 自动渲染）
 
-三张一组的朋友圈配图模板（1080×1440 竖版，GitHub Dark 技术风）：
+## 朋友圈配图（1080×1440 竖版，3 张一组）
 
-| 模板 | 用途 | 对应内容位 |
+**三套风格可选，出图时按选题调性选套系：**
+
+| 套系 | 风格 | 配色 | 模板文件 |
+|------|------|------|----------|
+| **A** | GitHub Dark 技术风 | 深底 #0d1117 + 绿/蓝/红 | `card1-glibc-error.html` / `card2-glibc-decision-tree.html` / `card3-repo-cover.html` |
+| **B** | 暖色编辑风 | 米底 #f7f4ef + 暖橙/墨蓝 + 衬线 + 印章 | `card1-glibc-error-B.html` / `card2-glibc-decision-tree-B.html` / `card3-repo-cover-B.html` |
+| **C** | 白板手绘风 | 方格纸 #faf8f3 + 便签贴 + 手写感 | `card1-glibc-error-C.html` / `card2-glibc-decision-tree-C.html` / `card3-repo-cover-C.html` |
+
+| 卡位 | 用途 | 对应内容位 |
 |------|------|-----------|
-| `card1-*-error.html` | 报错冲击卡（钩子） | 终端窗口命令/报错文字、大标题、副题 |
-| `card2-*-tree.html` | 决策树/清单卡（干货收藏点） | 问题句、2-3 个分支的条件与解法 |
-| `card3-repo-cover.html` | 仓库封面卡（转化） | 三个 stat 数字、副题、底部地址 |
+| `card1-*-error` | 报错冲击卡（钩子） | 终端窗口命令/报错文字、大标题、副题 |
+| `card2-*-tree` | 决策树/清单卡（干货收藏点） | 问题句、2-3 个分支的条件与解法 |
+| `card3-repo-cover` | 仓库封面卡（转化） | 三个 stat 数字、副题、底部地址 |
 
 ## 复用步骤（换题出图三分钟）
 

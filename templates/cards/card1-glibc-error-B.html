@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1080px; height:1440px; background:#f7f4ef;
+    background-image:
+      radial-gradient(ellipse at 20% 15%, rgba(200,85,45,.05), transparent 55%),
+      radial-gradient(ellipse at 85% 85%, rgba(58,107,138,.06), transparent 50%);
+    font-family:'Georgia','Times New Roman',serif;
+    color:#1a2b3c; display:flex; flex-direction:column;
+    padding:64px 72px; overflow:hidden; position:relative;
+  }
+  .noise { position:absolute; inset:0; opacity:.03; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .tag { display:inline-flex; align-items:center; gap:10px; font-family:'Microsoft YaHei',sans-serif; font-size:22px; color:#c8552d; letter-spacing:3px; font-weight:600; }
+  .tag::before { content:''; width:28px; height:2px; background:#c8552d; }
+  .terminal { margin-top:48px; border-radius:6px 18px 6px 18px; overflow:hidden; border:1px solid #d4cdb8; box-shadow:6px 8px 0 rgba(26,43,60,.08); }
+  .term-bar { background:#2c2416; padding:18px 24px; display:flex; align-items:center; gap:10px; }
+  .term-bar i { width:16px; height:16px; border-radius:50%; display:block; }
+  .r{background:#c8552d}.y{background:#d4a843}.g{background:#5a8a5a}
+  .term-title { margin-left:12px; font-family:'Consolas',monospace; font-size:18px; color:#a8a090; }
+  .term-body { background:#3d342a; padding:40px 44px; min-height:460px; font-family:'Consolas',monospace; font-size:26px; line-height:1.85; color:#e8e0d0; }
+  .p { color:#8aaa6a; } .cmd { color:#e8e0d0; } .dim { color:#a8a090; }
+  .err { color:#e8654a; font-weight:700; }
+  .err-line { margin:22px -16px; padding:18px 16px; background:rgba(232,101,74,.1); border-left:5px solid #e8654a; border-radius:4px; font-size:30px; }
+  h1 { margin-top:56px; font-size:82px; line-height:1.22; letter-spacing:1px; font-weight:700; }
+  h1 em { font-style:italic; color:#c8552d; }
+  .sub { margin-top:24px; font-family:'Microsoft YaHei',sans-serif; font-size:34px; color:#5a6c7d; line-height:1.55; }
+  .sub b { color:#1a2b3c; font-weight:600; }
+  .stamp { position:absolute; top:56px; right:64px; width:96px; height:96px; border:4px solid #c8552d; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#c8552d; font-family:'Microsoft YaHei',sans-serif; transform:rotate(-14deg); opacity:.8; z-index:3; }
+  .stamp .big { font-size:30px; font-weight:800; line-height:1; }
+  .stamp .small { font-size:10px; letter-spacing:1px; margin-top:3px; }
+  .foot { margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end; border-top:2px solid #d4cdb8; padding-top:32px; }
+  .repo { font-family:'Consolas',monospace; font-size:26px; color:#3a6b8a; font-weight:600; border-bottom:2px solid #c8552d; padding-bottom:3px; }
+  .idx { font-family:'Georgia',serif; font-style:italic; font-size:24px; color:#a8a090; }
+</style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="stamp"><div class="big">01</div><div class="small">踩坑实录</div></div>
+  <div class="tag">RK3XX 芯片开发 · 踩坑实录</div>
+  <div class="terminal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">cross-compile — bash</span></div>
+    <div class="term-body">
+      <div><span class="p">$</span> <span class="cmd">aarch64-linux-gnu-g++ -o demo demo.cpp -lrockchip_mpp</span></div>
+      <div><span class="p">$</span> <span class="cmd">scp demo root@board:/tmp/ &amp;&amp; ssh root@board /tmp/demo</span></div>
+      <div><span class="dim">./demo: /lib/aarch64-linux-gnu/libc.so.6:</span></div>
+      <div class="err-line"><span class="err">version `GLIBC_2.34' not found</span><br><span class="err">(required by ./demo)</span></div>
+      <div><span class="dim"># 容器 glibc 2.35 编译，板子 glibc 2.31 运行 —— 必崩</span></div>
+    </div>
+  </div>
+  <h1>嵌入式 AI 开发<br><em>第一坑</em></h1>
+  <div class="sub">十个人九个中过：<b>GLIBC 版本地狱</b>。<br>编译好好的，一上板子就崩。</div>
+  <div class="foot">
+    <span class="repo">github.com/DczAnt/rk3xx-chip-dev</span>
+    <span class="idx">01 / 03 · 套系 B</span>
+  </div>
+</body>
+</html>

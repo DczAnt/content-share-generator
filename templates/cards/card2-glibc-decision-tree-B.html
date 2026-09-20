@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1080px; height:1440px; background:#f7f4ef;
+    background-image:radial-gradient(ellipse at 75% 20%, rgba(200,85,45,.05), transparent 55%);
+    font-family:'Georgia','Times New Roman',serif; color:#1a2b3c;
+    display:flex; flex-direction:column; padding:64px 72px; overflow:hidden; position:relative;
+  }
+  .noise { position:absolute; inset:0; opacity:.03; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .tag { display:inline-flex; align-items:center; gap:10px; font-family:'Microsoft YaHei',sans-serif; font-size:22px; color:#c8552d; letter-spacing:3px; font-weight:600; }
+  .tag::before { content:''; width:28px; height:2px; background:#c8552d; }
+  h1 { margin-top:18px; font-size:64px; line-height:1.22; font-weight:700; }
+  h1 em { font-style:italic; color:#c8552d; }
+  .question { margin-top:28px; padding:18px 26px; background:#fef3c7; border-radius:6px 16px 6px 16px; font-family:'Microsoft YaHei',sans-serif; font-size:28px; color:#1a2b3c; display:inline-block; box-shadow:4px 5px 0 rgba(26,43,60,.08); transform:rotate(-.8deg); }
+  .question code { font-family:'Consolas',monospace; font-size:24px; background:#1a2b3c; color:#fef3c7; padding:3px 10px; border-radius:4px; }
+  .branches { margin-top:36px; display:flex; flex-direction:column; gap:22px; flex:1; }
+  .sticky { padding:24px 28px; border-radius:4px 18px 4px 18px; box-shadow:5px 6px 0 rgba(26,43,60,.1); position:relative; }
+  .sticky.bad { background:#fde2dc; transform:rotate(1deg); border-left:6px solid #c8552d; }
+  .sticky.good { background:#d4ecd4; transform:rotate(-.6deg); border-left:6px solid #5a8a5a; }
+  .sticky .cond { font-family:'Consolas',monospace; font-size:20px; font-weight:700; padding:4px 12px; border-radius:4px; display:inline-block; margin-bottom:12px; }
+  .sticky.bad .cond { background:#f4a896; color:#8b2e1a; }
+  .sticky.good .cond { background:#8ec48e; color:#1a4d1a; }
+  .sticky h3 { font-family:'Microsoft YaHei',sans-serif; font-size:28px; margin-bottom:10px; }
+  .sticky .desc { font-family:'Microsoft YaHei',sans-serif; font-size:22px; color:#4a5c6d; line-height:1.55; margin-bottom:12px; }
+  .sticky .cmd { font-family:'Consolas',monospace; font-size:20px; color:#1a2b3c; background:rgba(255,255,255,.55); padding:12px 16px; border-radius:6px; line-height:1.7; border:1px dashed rgba(26,43,60,.2); }
+  .sticky .cmd .g { color:#2d7a2d; } .sticky .cmd .r { color:#c8552d; } .sticky .cmd .d { color:#7a8a9a; }
+  .foot { margin-top:28px; display:flex; justify-content:space-between; align-items:flex-end; border-top:2px solid #d4cdb8; padding-top:28px; }
+  .repo { font-family:'Consolas',monospace; font-size:26px; color:#3a6b8a; font-weight:600; border-bottom:2px solid #c8552d; padding-bottom:3px; }
+  .idx { font-family:'Georgia',serif; font-style:italic; font-size:24px; color:#a8a090; }
+</style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="tag">GLIBC 决策树 · 一图看懂</div>
+  <h1>板子报 <em>GLIBC_2.34 not found</em><br>怎么办？</h1>
+  <div class="question">先量：<code>ldd --version</code> &nbsp;# 板子上跑</div>
+  <div class="branches">
+    <div class="sticky bad">
+      <span class="cond">glibc &lt; 2.34（如 2.31）</span>
+      <h3>容器 2.35 直编 → 必崩</h3>
+      <div class="desc">产物埋了 2.34 符号引用，板子没有这个符号</div>
+      <div class="cmd"><span class="r">✗</span> ./demo<br><span class="d">version `GLIBC_2.34' not found</span></div>
+    </div>
+    <div class="sticky good">
+      <span class="cond">解法 A：对齐工具链</span>
+      <h3>用板子 sysroot 的 crt 三要素</h3>
+      <div class="desc">-nostartfiles + 板子 Scrt1.o/crti.o/crtn.o + --sysroot</div>
+      <div class="cmd"><span class="g">✓</span> g++ --sysroot=board_fs \<br>&nbsp;&nbsp;-nostartfiles board/Scrt1.o ...</div>
+    </div>
+    <div class="sticky good">
+      <span class="cond">解法 B：静态链接</span>
+      <h3>-static 兜底，零 libc 依赖</h3>
+      <div class="desc">体积大但任何板子都能跑，不依赖厂商 .so 时首选</div>
+      <div class="cmd"><span class="g">✓</span> g++ -static -o demo demo.cpp<br><span class="d">not a dynamic executable</span></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="repo">github.com/DczAnt/rk3xx-chip-dev</span>
+    <span class="idx">02 / 03 · 套系 B</span>
+  </div>
+</body>
+</html>
