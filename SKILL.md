@@ -8,7 +8,7 @@ description: >-
   支持多 skill 路由：指定 skill 名加载已沉淀事实底库，或给 skill 路径现场提炼；
   内置统一叙事公式、三平台模板与图卡模板，保证产出数字准确、仓库地址醒目、定位为技术分享。
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
-version: "2.3.0"
+version: "2.4.0"
 ---
 
 # 技术分享内容生成技能
@@ -18,6 +18,7 @@ version: "2.3.0"
 > v2.1.0 起公众号长文自带 **4 张配图**（封面/决策树/数据表/文末引导），HTML 模板一键渲染。
 > v2.2.0 起朋友圈 **3 套风格** + 公众号 **2 套风格**配图模板，去 AI 风（每套独立配色/版式/字体 + SVG 噪点 + 便签微旋转）。
 > v2.3.0 起公众号扩至 **5 套风格**（+C 极简水墨 / D 赛博暗夜 / E 杂志双色调），按选题调性选套系。
+> v2.4.0 起新增 `scripts/insert-image.py`：把长文里的 📷 标记一键替换为 Markdown 图片语法，支持套系切换/自定义图片/HTML 宽度属性。
 
 ---
 
@@ -35,6 +36,8 @@ templates/moments.md              # 朋友圈图文模板
 templates/douyin-script.md        # 抖音口播脚本模板（分镜表）
 templates/tech-article.md         # 技术长文模板（公众号/知乎/CSDN 通用）
 templates/cards/                  # 朋友圈图卡 HTML 模板 + Edge 渲染说明
+scripts/                          # 自动化脚本
+  └── insert-image.py             # 📷 标记 → Markdown 图片语法（套系切换/自定义/HTML 宽度）
 examples/                         # 已验证成品范例（few-shot 对照）
 ```
 
@@ -57,6 +60,26 @@ examples/                         # 已验证成品范例（few-shot 对照）
 3. **套叙事**：读 `narrative.md`，按统一叙事公式组织结构，仓库地址用 fact-base §一的产品仓库地址（非硬编码），按曝光规范强制执行。
 4. **选模板产出**：按平台路由（§二）选模板，成品为**可直接发布**的文案/脚本，不留"待补"占位。
 5. **自检**：对照模板末尾自检清单逐项打勾，不合格重写；成品标注"事实核对：与 fact-bases/<skill>.md 一致"。
+
+### 1.3 配图插入（公众号长文专用，可选但推荐）
+
+技术长文产出后，正文里的 `📷` 标记只是占位。用 `scripts/insert-image.py` 一键替换为 Markdown 图片语法，产出可直接粘贴公众号的成品：
+
+```bash
+# 自动模式：标记里已有路径，直接转换 + 校验文件存在
+python scripts/insert-image.py 长文.md --verify -o 长文-配图.md
+
+# 套系模式：换公众号配图套系（A/B/C/D/E），自动把 gzh/ → gzh-X/
+python scripts/insert-image.py 长文.md --style-set D --verify -o 长文-D.md
+
+# 自定义模式：显式给 4 张图片路径，按标记出现顺序映射
+python scripts/insert-image.py 长文.md --images 封面.png 决策树.png 数据表.png 引导.png -o 长文-自定义.md
+
+# 公众号 HTML 宽度模式（粘贴公众号后排版用）
+python scripts/insert-image.py 长文.md --style-set D --width 100 -o 长文-html.md
+```
+
+三种模式按场景选：**自动**（标记已带正确路径）/ **套系**（换配图风格不改文）/ **自定义**（用非标准命名的图片）。`--verify` 校验图片文件存在，缺失会警告。
 
 ## 二、平台路由
 

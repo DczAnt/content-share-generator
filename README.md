@@ -5,7 +5,7 @@
 > 给任意 AI skill 一键产出朋友圈图文、抖音口播脚本、技术长文（公众号/知乎/CSDN）成品。
 > 内置事实底库 + 统一叙事公式 + 三平台模板 + 图卡 HTML→PNG 自动渲染，保证产出数字准确、仓库地址醒目、定位为技术分享。
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](#版本)
+[![Version](https://img.shields.io/badge/version-2.4.0-blue.svg)](#版本)
 [![Skills](https://img.shields.io/badge/fact--bases-rk3xx%20%7C%20frontend--design-green.svg)](#已沉淀的事实底库)
 
 ---
@@ -57,7 +57,9 @@ git clone https://github.com/DczAnt/content-share-generator.git \
 
 ## 配图自动生成
 
-三张一组的朋友圈图卡模板（报错钩子卡 / 干货清单卡 / 仓库封面卡），换题只改 HTML 文字，跑一条 Edge 命令出 PNG：
+### 朋友圈配图（3 套风格 × 3 张）
+
+三套去 AI 风格（A GitHub Dark / B 暖色编辑 / C 白板手绘），每套 3 张（报错钩子卡 / 干货清单卡 / 仓库封面卡），换题只改 HTML 文字，跑一条 Edge 命令出 PNG：
 
 ```powershell
 & "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" `
@@ -66,7 +68,26 @@ git clone https://github.com/DczAnt/content-share-generator.git \
   "file:///.../templates/cards/card1-xxx.html"
 ```
 
+### 公众号配图（5 套风格 × 4 张）
+
+五套去 AI 风格（A 混合 / B 复古印刷 / C 极简水墨 / D 赛博暗夜 / E 杂志双色调），每套 4 张（封面 900×383 / 决策树 1080×720 / 数据表 1080×600 / 文末引导 1080×400），按选题调性选套系。
+
 完整复用步骤见 [`templates/cards/README.md`](templates/cards/README.md)。
+
+### 配图插入长文
+
+技术长文里的 `📷` 标记是占位，用 `scripts/insert-image.py` 一键替换为 Markdown 图片语法：
+
+```bash
+# 自动模式：标记里已有路径，直接转换
+python scripts/insert-image.py 长文.md --verify -o 长文-配图.md
+
+# 套系模式：换配图套系（A/B/C/D/E）
+python scripts/insert-image.py 长文.md --style-set D --verify -o 长文-D.md
+
+# 公众号 HTML 宽度模式
+python scripts/insert-image.py 长文.md --style-set D --width 100 -o 长文-html.md
+```
 
 ## 目录结构
 
@@ -84,6 +105,8 @@ content-share-generator/
 │   ├── douyin-script.md          # 抖音分镜模板
 │   ├── tech-article.md           # 技术长文模板
 │   └── cards/                    # 图卡 HTML 模板 + 渲染说明
+├── scripts/
+│   └── insert-image.py           # 📷 标记 → Markdown 图片语法
 └── examples/                     # 已验证成品范例（few-shot）
 ```
 
@@ -112,6 +135,10 @@ content-share-generator/
 
 ## 版本
 
+- v2.4.0（2026-09-20）：新增 `scripts/insert-image.py` 配图插入脚本（套系切换/自定义图片/HTML 宽度/文件校验）
+- v2.3.0（2026-09-20）：公众号配图扩至 5 套风格（+C 极简水墨 / D 赔博暗夜 / E 杂志双色调）
+- v2.2.0（2026-09-20）：朋友圈 3 套 + 公众号 2 套去 AI 风多风格配图模板
+- v2.1.0（2026-09-20）：公众号长文自带 4 张配图 + tech-article.md 配图位置标注
 - v2.0.0（2026-09-20）：多 skill 路由 + 模式 B 现场提炼 + 地址变量化
 - v1.0.0：单 skill（rk3xx）+ 三平台模板 + 图卡自动渲染
 
