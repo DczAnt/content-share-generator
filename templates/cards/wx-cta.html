@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1080px; height:400px;
+    background:#0d1117;
+    background-image:
+      radial-gradient(circle at 50% 50%, rgba(31,111,235,.18), transparent 55%),
+      radial-gradient(circle at 12% 88%, rgba(63,185,80,.10), transparent 38%),
+      radial-gradient(circle at 88% 12%, rgba(248,81,73,.08), transparent 38%);
+    font-family:'Microsoft YaHei','PingFang SC',sans-serif;
+    color:#e6edf3; display:flex; align-items:center; justify-content:center;
+    padding:36px 64px; overflow:hidden;
+  }
+  .wrap { display:flex; align-items:center; gap:48px; width:100%; }
+  .left { flex:1.6; }
+  .tag {
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:15px; letter-spacing:3px; color:#7d8590;
+  }
+  .tag .dot { width:8px; height:8px; border-radius:50%; background:#3fb950; box-shadow:0 0 10px #3fb950; }
+  h1 { font-size:42px; line-height:1.25; margin-top:10px; letter-spacing:1px; }
+  h1 em { font-style:normal; color:#3fb950; }
+  .repo-box {
+    margin-top:18px; background:#161b22; border:1px solid #30363d; border-radius:10px;
+    padding:14px 20px; display:inline-flex; align-items:center; gap:12px;
+    box-shadow:0 8px 24px rgba(0,0,0,.45);
+  }
+  .repo-box .arrow { color:#3fb950; font-size:24px; font-weight:700; }
+  .repo-box .url {
+    font-family:'Cascadia Code',Consolas,monospace; font-size:24px; color:#1f6feb; font-weight:700; letter-spacing:.5px;
+  }
+  .sub { margin-top:14px; font-size:16px; color:#7d8590; line-height:1.6; }
+  .sub b { color:#e6edf3; font-weight:600; }
+  .right { flex:1; display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .qr {
+    width:160px; height:160px; background:#e6edf3; border-radius:10px;
+    display:grid; grid-template-columns:repeat(12,1fr); grid-template-rows:repeat(12,1fr);
+    padding:10px; gap:1px;
+  }
+  .qr i { background:#0d1117; border-radius:1px; }
+  .qr i.o { background:#e6edf3; }
+  .qr-label { font-size:13px; color:#7d8590; letter-spacing:2px; }
+  .qr-label b { color:#e6edf3; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="left">
+      <div class="tag"><span class="dot"></span>完整代码已开源 · 持续更新</div>
+      <h1>56 个坑做成了 AI 的<em>记忆</em><br>下一个坑别再踩</h1>
+      <div class="repo-box">
+        <span class="arrow">→</span>
+        <span class="url">github.com/DczAnt/rk3xx-chip-dev</span>
+      </div>
+      <div class="sub">Star 一发 = 后续 <b>RK3576/RK3568</b> 踩坑不重复。<br>issues 区可投坑，沉淀进 skill 反哺所有人。</div>
+    </div>
+
+    <div class="right">
+      <div class="qr">
+        <i class="o"></i><i></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i>
+        <i></i><i class="o"></i><i></i><i class="o"></i><i></i><i></i><i></i><i class="o"></i><i></i><i></i><i class="o"></i><i></i>
+        <i></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i><i></i><i></i><i class="o"></i><i></i><i></i><i></i>
+        <i class="o"></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i>
+        <i></i><i class="o"></i><i></i><i></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i>
+        <i></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i><i></i><i class="o"></i><i></i><i></i><i></i><i class="o"></i>
+        <i class="o"></i><i></i><i></i><i class="o"></i><i></i><i></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i>
+        <i></i><i class="o"></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i><i></i><i class="o"></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i>
+        <i class="o"></i><i></i><i class="o"></i><i></i><i></i><i></i><i></i><i class="o"></i><i></i><i></i><i></i><i class="o"></i>
+        <i></i><i class="o"></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i>
+        <i class="o"></i><i></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i><i></i><i class="o"></i><i></i><i class="o"></i>
+      </div>
+      <div class="qr-label">扫码 · <b>开源仓库</b></div>
+    </div>
+  </div>
+</body>
+</html>

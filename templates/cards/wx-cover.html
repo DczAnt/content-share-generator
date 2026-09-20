@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:900px; height:383px;
+    background:#0d1117;
+    background-image:
+      radial-gradient(circle at 88% 18%, rgba(31,111,235,.18), transparent 42%),
+      radial-gradient(circle at 12% 88%, rgba(63,185,80,.10), transparent 38%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(230,237,243,.025) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(230,237,243,.025) 40px);
+    font-family:'Microsoft YaHei','PingFang SC',sans-serif;
+    color:#e6edf3; display:flex; align-items:stretch;
+    padding:36px 48px; overflow:hidden;
+  }
+  .left { flex:1.4; display:flex; flex-direction:column; justify-content:space-between; padding-right:32px; }
+  .tag {
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:15px; letter-spacing:3px; color:#7d8590;
+  }
+  .tag .dot { width:8px; height:8px; border-radius:50%; background:#3fb950; box-shadow:0 0 10px #3fb950; }
+  .tag .num { color:#1f6feb; font-family:'Cascadia Code',Consolas,monospace; }
+  h1 { font-size:54px; line-height:1.18; letter-spacing:1px; margin-top:6px; }
+  h1 em { font-style:normal; color:#f85149; }
+  h1 b { font-weight:700; color:#3fb950; }
+  .sub { margin-top:14px; font-size:18px; color:#7d8590; line-height:1.55; }
+  .sub b { color:#e6edf3; font-weight:600; }
+  .repo {
+    font-family:'Cascadia Code',Consolas,monospace; font-size:18px;
+    color:#1f6feb; font-weight:700; letter-spacing:.5px;
+  }
+  .repo .arrow { color:#3fb950; margin-right:6px; }
+  .right { flex:1; display:flex; flex-direction:column; justify-content:center; gap:10px; }
+  .term {
+    border-radius:10px; overflow:hidden; border:1px solid #30363d;
+    box-shadow:0 12px 32px rgba(0,0,0,.55);
+  }
+  .term-bar {
+    background:#161b22; padding:8px 12px; display:flex; align-items:center; gap:6px;
+    border-bottom:1px solid #30363d;
+  }
+  .term-bar i { width:9px; height:9px; border-radius:50%; display:block; }
+  .r{background:#f85149}.y{background:#d29922}.g{background:#3fb950}
+  .term-title { margin-left:8px; font-family:'Cascadia Code',Consolas,monospace; font-size:11px; color:#7d8590; }
+  .term-body {
+    background:#0d1117; padding:14px 16px;
+    font-family:'Cascadia Code',Consolas,monospace; font-size:13px; line-height:1.7;
+  }
+  .p { color:#3fb950; } .cmd { color:#e6edf3; } .dim { color:#7d8590; }
+  .err { color:#f85149; font-weight:700; }
+  .ok { color:#3fb950; font-weight:700; }
+  .stat-row { display:flex; gap:18px; margin-top:6px; }
+  .stat { flex:1; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:10px 12px; }
+  .stat .v { font-family:'Cascadia Code',Consolas,monospace; font-size:22px; font-weight:700; }
+  .stat .v.g { color:#3fb950; } .stat .v.b { color:#1f6feb; } .stat .v.r { color:#f85149; }
+  .stat .l { font-size:11px; color:#7d8590; margin-top:2px; letter-spacing:1px; }
+</style>
+</head>
+<body>
+  <div class="left">
+    <div>
+      <div class="tag"><span class="dot"></span>RK3XX 芯片开发 · 踩坑实录 <span class="num">#03</span></div>
+      <h1>GLIBC <em>2.34</em> 找不到？<br>一次 <b>交叉编译</b> 排查实录</h1>
+      <div class="sub">从容器 2.35 编译到板子 2.31 运行必崩，<br>到 <b>84.27 fps</b> 跑通的全过程。</div>
+    </div>
+    <div class="repo"><span class="arrow">→</span>github.com/DczAnt/rk3xx-chip-dev</div>
+  </div>
+
+  <div class="right">
+    <div class="term">
+      <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">cross-compile — bash</span></div>
+      <div class="term-body">
+        <div><span class="p">$</span> <span class="cmd">aarch64-linux-gnu-g++ ...</span></div>
+        <div><span class="dim">./demo: libc.so.6:</span></div>
+        <div><span class="err">version `GLIBC_2.34' not found</span></div>
+        <div><span class="p">$</span> <span class="cmd">ldd --version  # 板子</span></div>
+        <div><span class="dim">ldd (Ubuntu) 2.31-0ubuntu9</span></div>
+        <div><span class="ok">→ 改用 glibc 2.31 工具链重编</span></div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="v g">84.27</div><div class="l">FPS · RK3576</div></div>
+      <div class="stat"><div class="v b">56</div><div class="l">坑 · 已沉淀</div></div>
+      <div class="stat"><div class="v r">2.31</div><div class="l">GLIBC · 板子</div></div>
+    </div>
+  </div>
+</body>
+</html>
