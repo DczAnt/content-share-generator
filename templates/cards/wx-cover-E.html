@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:900px; height:383px; background:#f5f1e8; font-family:'Helvetica Neue','Arial',sans-serif; color:#1a3c34; display:flex; padding:32px 44px; overflow:hidden; position:relative; }
+  .accent-bar { position:absolute; left:0; top:0; width:8px; height:100%; background:#c9a96e; }
+  .left { flex:1.5; padding-right:28px; display:flex; flex-direction:column; justify-content:space-between; }
+  .tag { font-size:12px; color:#c9a96e; letter-spacing:4px; font-weight:700; text-transform:uppercase; }
+  .pagenum { font-size:12px; color:#c9a96e; letter-spacing:2px; }
+  h1 { font-size:48px; line-height:1.15; margin-top:12px; font-weight:800; letter-spacing:-1px; }
+  h1 .gold { color:#c9a96e; }
+  h1 .thin { font-weight:200; color:#5a7a6e; }
+  .sub { margin-top:12px; font-size:16px; color:#5a7a6e; line-height:1.6; font-weight:300; }
+  .sub b { color:#1a3c34; font-weight:600; }
+  .repo { font-family:'Consolas',monospace; font-size:14px; color:#1a3c34; font-weight:600; }
+  .repo::before { content:'→ '; color:#c9a96e; }
+  .right { flex:1; display:flex; flex-direction:column; justify-content:center; align-items:flex-end; gap:10px; }
+  .stat-block { text-align:right; }
+  .stat-block .v { font-size:42px; font-weight:800; color:#1a3c34; line-height:1; }
+  .stat-block .v.gold { color:#c9a96e; }
+  .stat-block .l { font-size:11px; color:#5a7a6e; letter-spacing:2px; margin-top:4px; text-transform:uppercase; }
+  .divider { width:60px; height:2px; background:#c9a96e; margin:6px 0; align-self:flex-end; }
+  .chip { font-size:24px; font-weight:800; letter-spacing:3px; color:#1a3c34; }
+  .chip-sub { font-family:'Consolas',monospace; font-size:11px; color:#5a7a6e; letter-spacing:3px; }
+</style>
+</head>
+<body>
+  <div class="accent-bar"></div>
+  <div class="left">
+    <div>
+      <div style="display:flex; justify-content:space-between;"><span class="tag">踩坑实录 · No.03</span><span class="pagenum">P.01</span></div>
+      <h1>GLIBC 2.34<br><span class="thin">找不到？</span><br><span class="gold">一条决策树</span></h1>
+      <div class="sub">容器编好一上板就崩，<b>十人九中</b>。<br>从三条弯路到三组可复制命令。</div>
+    </div>
+    <div class="repo">github.com/DczAnt/rk3xx-chip-dev</div>
+  </div>
+  <div class="right">
+    <div class="chip">RK3576</div>
+    <div class="chip-sub">A55 · NEBULA</div>
+    <div class="divider"></div>
+    <div class="stat-block"><div class="v">84.27</div><div class="l">FPS</div></div>
+    <div class="stat-block"><div class="v gold">×7.4</div><div class="l">提升</div></div>
+  </div>
+</body>
+</html>

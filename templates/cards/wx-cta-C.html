@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:1080px; height:400px; background:#fafafa; font-family:'Georgia','Times New Roman',serif; color:#1a1a1a; display:flex; align-items:center; padding:36px 64px; overflow:hidden; position:relative; }
+  .left { flex:1.7; padding-right:36px; }
+  .tag { font-family:'KaiTi','STKaiti',serif; font-size:15px; color:#c0392b; letter-spacing:3px; }
+  h1 { font-size:34px; line-height:1.35; margin-top:12px; font-weight:700; letter-spacing:1px; }
+  h1 .red { color:#c0392b; }
+  h1 .strike { text-decoration:line-through; text-decoration-color:#c0392b; color:#999; }
+  .repo { margin-top:16px; font-family:'Consolas',monospace; font-size:18px; color:#1a1a1a; font-weight:700; }
+  .repo::before { content:'→ '; color:#c0392b; }
+  .sub { margin-top:10px; font-family:'KaiTi','STKaiti',serif; font-size:15px; color:#666; line-height:1.7; }
+  .sub b { color:#1a1a1a; font-weight:700; }
+  .sig { margin-top:12px; font-family:'KaiTi','STKaiti',serif; font-size:14px; color:#999; }
+  .sig .name { color:#c0392b; font-weight:700; }
+  .right { width:160px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .seal { width:100px; height:100px; background:#c0392b; border-radius:4px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fafafa; font-family:'KaiTi','STKaiti',serif; transform:rotate(-3deg); }
+  .seal .big { font-size:32px; font-weight:700; line-height:1; }
+  .seal .small { font-size:10px; letter-spacing:2px; margin-top:4px; }
+  .qr-label { font-family:'KaiTi','STKaiti',serif; font-size:12px; color:#999; letter-spacing:2px; }
+  .qr-label b { color:#c0392b; }
+</style>
+</head>
+<body>
+  <div class="left">
+    <div class="tag">完整代码已开源</div>
+    <h1>56 个坑做成 AI 的<span class="red">记忆</span><br><span class="strike">下一个坑</span> 别再踩</h1>
+    <div class="repo">github.com/DczAnt/rk3xx-chip-dev</div>
+    <div class="sub">Star 一发 = 后续 <b>RK3576/RK3568</b> 踩坑不重复<br>issues 区可投坑，沉淀进 skill 反哺所有人</div>
+    <div class="sig">— <span class="name">DczAnt</span> · 嵌入式 AI 老兵</div>
+  </div>
+  <div class="right">
+    <div class="seal"><div class="big">扫码</div><div class="small">开源仓库</div></div>
+    <div class="qr-label">→ <b>GitHub</b></div>
+  </div>
+</body>
+</html>

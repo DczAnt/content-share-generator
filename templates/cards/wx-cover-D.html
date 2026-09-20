@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:900px; height:383px; background:#0a0e27; background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,.03) 3px,transparent 4px); font-family:'Consolas','Courier New',monospace; color:#e0e8f0; display:flex; padding:32px 44px; overflow:hidden; position:relative; }
+  .glitch { position:absolute; inset:0; pointer-events:none; background:linear-gradient(90deg,rgba(255,107,53,.04),transparent 30%,transparent 70%,rgba(0,212,255,.04)); }
+  .left { flex:1.4; padding-right:28px; display:flex; flex-direction:column; justify-content:space-between; z-index:2; }
+  .tag { font-size:13px; color:#00d4ff; letter-spacing:3px; text-transform:uppercase; }
+  .tag::before { content:'> '; color:#ff6b35; }
+  h1 { font-size:42px; line-height:1.2; margin-top:10px; font-weight:700; letter-spacing:1px; font-family:'Microsoft YaHei',sans-serif; }
+  h1 .cyan { color:#00d4ff; text-shadow:1px 0 #ff6b35; }
+  h1 .orange { color:#ff6b35; }
+  .sub { margin-top:10px; font-size:15px; color:#8090a8; line-height:1.6; font-family:'Microsoft YaHei',sans-serif; }
+  .sub b { color:#e0e8f0; font-weight:600; }
+  .repo { font-size:14px; color:#00d4ff; font-weight:700; }
+  .repo::before { content:'git clone '; color:#ff6b35; }
+  .right { flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:10px; z-index:2; }
+  .terminal { border:1px solid #1a3050; border-radius:4px; padding:14px 18px; background:#0d1530; box-shadow:0 0 20px rgba(0,212,255,.08); }
+  .terminal .line { font-size:13px; line-height:1.8; }
+  .terminal .p { color:#00d4ff; } .terminal .err { color:#ff6b35; } .terminal .d { color:#506880; }
+  .stats { display:flex; gap:16px; margin-top:4px; }
+  .stats .s { text-align:center; }
+  .stats .v { font-size:20px; font-weight:700; }
+  .stats .v.c { color:#00d4ff; } .stats .v.o { color:#ff6b35; }
+  .stats .l { font-size:10px; color:#506880; letter-spacing:1px; margin-top:2px; }
+</style>
+</head>
+<body>
+  <div class="glitch"></div>
+  <div class="left">
+    <div>
+      <div class="tag">SYS::GLIBC_ERROR_034</div>
+      <h1><span class="cyan">GLIBC_2.34</span><br><span class="orange">NOT FOUND</span></h1>
+      <div class="sub">容器编好一上板就崩，<b>十人九中</b>。<br>一条决策树终结兼容地狱。</div>
+    </div>
+    <div class="repo">github.com/DczAnt/rk3xx-chip-dev</div>
+  </div>
+  <div class="right">
+    <div class="terminal">
+      <div class="line"><span class="p">$</span> ldd --version</div>
+      <div class="line"><span class="d">ldd 2.31-0ubuntu9</span></div>
+      <div class="line"><span class="p">$</span> ./demo</div>
+      <div class="line"><span class="err">GLIBC_2.34 not found</span></div>
+    </div>
+    <div class="stats">
+      <div class="s"><div class="v c">84.27</div><div class="l">FPS</div></div>
+      <div class="s"><div class="v o">×7.4</div><div class="l">提升</div></div>
+    </div>
+  </div>
+</body>
+</html>

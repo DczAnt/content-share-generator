@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:1080px; height:720px; background:#f5f1e8; font-family:'Helvetica Neue','Arial',sans-serif; color:#1a3c34; padding:44px 56px; overflow:hidden; position:relative; }
+  .accent-bar { position:absolute; left:0; top:0; width:8px; height:100%; background:#c9a96e; }
+  .tag { font-size:13px; color:#c9a96e; letter-spacing:4px; font-weight:700; text-transform:uppercase; }
+  h1 { font-size:36px; line-height:1.2; margin-top:10px; font-weight:800; letter-spacing:-.5px; }
+  h1 .gold { color:#c9a96e; }
+  .question { margin-top:16px; font-size:18px; color:#5a7a6e; font-weight:300; padding-left:14px; border-left:3px solid #c9a96e; }
+  .question code { font-family:'Consolas',monospace; font-size:16px; color:#1a3c34; font-weight:600; }
+  .tree { margin-top:24px; display:flex; gap:22px; }
+  .branch { flex:1; padding:20px; background:#fff; border:1px solid #d4ccb8; position:relative; }
+  .branch::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; }
+  .branch.bad::before { background:#c0392b; }
+  .branch.good::before { background:#1a3c34; }
+  .branch .cond { font-family:'Consolas',monospace; font-size:13px; font-weight:700; margin-bottom:10px; display:block; letter-spacing:1px; }
+  .branch.bad .cond { color:#c0392b; }
+  .branch.good .cond { color:#1a3c34; }
+  .branch h3 { font-size:18px; margin-bottom:8px; font-weight:700; }
+  .branch .desc { font-size:14px; color:#5a7a6e; line-height:1.55; margin-bottom:10px; font-weight:300; }
+  .branch .cmd { font-family:'Consolas',monospace; font-size:13px; color:#1a3c34; background:#f5f1e8; padding:10px 12px; line-height:1.7; }
+  .branch .cmd .g { color:#1a3c34; font-weight:700; } .branch .cmd .r { color:#c0392b; font-weight:700; } .branch .cmd .d { color:#8a9a8e; }
+  .branch .result { margin-top:8px; font-family:'Consolas',monospace; font-size:13px; font-weight:700; }
+  .branch.bad .result { color:#c0392b; }
+  .branch.good .result { color:#1a3c34; }
+  .conclusion { margin-top:20px; padding:16px 22px; background:#1a3c34; color:#f5f1e8; font-size:16px; display:flex; align-items:center; gap:10px; }
+  .conclusion .icon { color:#c9a96e; font-size:20px; }
+  .conclusion b { color:#c9a96e; }
+  .conclusion code { font-family:'Consolas',monospace; color:#c9a96e; font-size:15px; }
+  .foot { position:absolute; left:56px; bottom:20px; right:56px; display:flex; justify-content:space-between; align-items:center; }
+  .foot .repo { font-family:'Consolas',monospace; font-size:14px; color:#1a3c34; font-weight:600; }
+  .foot .repo::before { content:'→ '; color:#c9a96e; }
+  .foot .idx { font-size:13px; color:#8a9a8e; letter-spacing:2px; }
+</style>
+</head>
+<body>
+  <div class="accent-bar"></div>
+  <div class="tag">Decision Tree · No.03</div>
+  <h1>报 <span class="gold">GLIBC_2.34 not found</span> 怎么办？</h1>
+  <div class="question">先量：<code>ldd --version</code></div>
+  <div class="tree">
+    <div class="branch bad">
+      <span class="cond">glibc &lt; 2.34</span>
+      <h3>容器直编 → 必崩</h3>
+      <div class="desc">产物埋了 2.34 符号引用，板子没有</div>
+      <div class="cmd"><span class="r">✗</span> ./demo<br><span class="d">version not found</span></div>
+      <div class="result">✗ 拒绝加载</div>
+    </div>
+    <div class="branch good">
+      <span class="cond">对齐工具链</span>
+      <h3>板子 sysroot 重编</h3>
+      <div class="desc">用板子 crt 三要素 + --sysroot</div>
+      <div class="cmd"><span class="g">✓</span> --sysroot=board_fs<br><span class="g">✓</span> -nostartfiles</div>
+      <div class="result">✓ 正常运行</div>
+    </div>
+    <div class="branch good">
+      <span class="cond">或 -static</span>
+      <h3>静态链接兜底</h3>
+      <div class="desc">零 libc 依赖，体积大但最稳</div>
+      <div class="cmd"><span class="g">✓</span> g++ -static ...<br><span class="d">not dynamic exec</span></div>
+      <div class="result">✓ 任何板能跑</div>
+    </div>
+  </div>
+  <div class="conclusion">
+    <span class="icon">◆</span>
+    <span>板子 glibc = 编译容器 glibc，或直接 <code>-static</code></span>
+  </div>
+  <div class="foot">
+    <span class="repo">github.com/DczAnt/rk3xx-chip-dev</span>
+    <span class="idx">TREE · 套系E</span>
+  </div>
+</body>
+</html>

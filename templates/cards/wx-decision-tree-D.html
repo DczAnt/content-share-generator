@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:1080px; height:720px; background:#0a0e27; background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,.025) 3px,transparent 4px); font-family:'Consolas','Courier New',monospace; color:#e0e8f0; padding:44px 56px; overflow:hidden; position:relative; }
+  .tag { font-size:16px; color:#00d4ff; letter-spacing:3px; }
+  .tag::before { content:'> '; color:#ff6b35; }
+  h1 { font-size:34px; line-height:1.25; margin-top:10px; font-weight:700; font-family:'Microsoft YaHei',sans-serif; }
+  h1 .cyan { color:#00d4ff; text-shadow:1px 0 #ff6b35; }
+  .question { margin-top:16px; padding:12px 18px; background:#0d1530; border:1px solid #1a3050; border-radius:4px; font-size:16px; display:inline-block; }
+  .question code { font-size:14px; color:#ff6b35; }
+  .tree { margin-top:22px; display:flex; gap:20px; }
+  .branch { flex:1; padding:18px; background:#0d1530; border:1px solid #1a3050; border-radius:4px; position:relative; }
+  .branch.bad { border-color:#ff6b35; box-shadow:0 0 12px rgba(255,107,53,.1); }
+  .branch.good { border-color:#00d4ff; box-shadow:0 0 12px rgba(0,212,255,.1); }
+  .branch .cond { font-size:13px; font-weight:700; margin-bottom:10px; display:block; }
+  .branch.bad .cond { color:#ff6b35; }
+  .branch.good .cond { color:#00d4ff; }
+  .branch h3 { font-size:17px; margin-bottom:7px; font-family:'Microsoft YaHei',sans-serif; }
+  .branch .desc { font-size:13px; color:#8090a8; line-height:1.55; margin-bottom:9px; font-family:'Microsoft YaHei',sans-serif; }
+  .branch .cmd { font-size:13px; color:#e0e8f0; background:#0a0e27; padding:10px 12px; line-height:1.7; border-left:2px solid #1a3050; }
+  .branch .cmd .g { color:#00d4ff; } .branch .cmd .r { color:#ff6b35; } .branch .cmd .d { color:#506880; }
+  .branch .result { margin-top:7px; font-size:13px; font-weight:700; }
+  .branch.bad .result { color:#ff6b35; }
+  .branch.good .result { color:#00d4ff; }
+  .conclusion { margin-top:18px; padding:14px 20px; background:#0d1530; border:1px solid #00d4ff; border-radius:4px; font-size:15px; font-family:'Microsoft YaHei',sans-serif; display:flex; align-items:center; gap:10px; box-shadow:0 0 16px rgba(0,212,255,.08); }
+  .conclusion .icon { color:#ff6b35; font-size:18px; }
+  .conclusion b { color:#00d4ff; }
+  .conclusion code { color:#ff6b35; font-size:14px; }
+  .foot { position:absolute; left:56px; bottom:20px; right:56px; display:flex; justify-content:space-between; align-items:center; font-size:13px; }
+  .foot .repo { color:#00d4ff; font-weight:700; }
+  .foot .idx { color:#506880; letter-spacing:3px; }
+</style>
+</head>
+<body>
+  <div class="tag">DECISION_TREE::GLIBC</div>
+  <h1>报 <span class="cyan">GLIBC_2.34 not found</span> 怎么办？</h1>
+  <div class="question">先量：<code>ldd --version</code></div>
+  <div class="tree">
+    <div class="branch bad">
+      <span class="cond">glibc &lt; 2.34</span>
+      <h3>容器直编 → 必崩</h3>
+      <div class="desc">产物埋了 2.34 符号引用</div>
+      <div class="cmd"><span class="r">✗</span> ./demo<br><span class="d">version not found</span></div>
+      <div class="result">✗ 拒绝加载</div>
+    </div>
+    <div class="branch good">
+      <span class="cond">对齐工具链</span>
+      <h3>板子 sysroot 重编</h3>
+      <div class="desc">用板子 crt 三要素</div>
+      <div class="cmd"><span class="g">✓</span> --sysroot=board_fs<br><span class="g">✓</span> -nostartfiles</div>
+      <div class="result">✓ 正常运行</div>
+    </div>
+    <div class="branch good">
+      <span class="cond">或 -static</span>
+      <h3>静态链接兜底</h3>
+      <div class="desc">零 libc 依赖，最稳</div>
+      <div class="cmd"><span class="g">✓</span> g++ -static ...<br><span class="d">not dynamic exec</span></div>
+      <div class="result">✓ 任何板能跑</div>
+    </div>
+  </div>
+  <div class="conclusion">
+    <span class="icon">⚡</span>
+    <span>板子 glibc = 编译容器 glibc，或直接 <code>-static</code></span>
+  </div>
+  <div class="foot">
+    <span class="repo">github.com/DczAnt/rk3xx-chip-dev</span>
+    <span class="idx">TREE · 套系D</span>
+  </div>
+</body>
+</html>
