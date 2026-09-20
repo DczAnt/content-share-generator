@@ -5,91 +5,73 @@
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    width:1080px; height:600px;
-    background:#0d1117;
-    background-image:
-      radial-gradient(circle at 8% 12%, rgba(63,185,80,.10), transparent 42%),
-      radial-gradient(circle at 92% 88%, rgba(31,111,235,.10), transparent 42%),
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(230,237,243,.025) 40px);
+    width:1080px; height:600px; background:#ffffff;
     font-family:'Microsoft YaHei','PingFang SC',sans-serif;
-    color:#e6edf3; display:flex; flex-direction:column;
-    padding:44px 64px; overflow:hidden;
+    color:#334155; padding:40px 56px; overflow:hidden; position:relative;
   }
-  .tag {
-    display:inline-flex; align-items:center; gap:12px;
-    font-size:18px; letter-spacing:3px; color:#7d8590;
-  }
-  .tag .dot { width:10px; height:10px; border-radius:50%; background:#3fb950; box-shadow:0 0 10px #3fb950; }
-  .tag .num { color:#1f6feb; font-family:'Cascadia Code',Consolas,monospace; }
-  h1 { font-size:40px; line-height:1.25; margin-top:12px; letter-spacing:1px; }
-  h1 em { font-style:normal; color:#3fb950; }
-  .sub { margin-top:6px; font-size:17px; color:#7d8590; }
-  table {
-    margin-top:24px; width:100%; border-collapse:separate; border-spacing:0;
-    border:1px solid #30363d; border-radius:12px; overflow:hidden;
-  }
-  th, td { padding:14px 18px; text-align:left; font-size:17px; }
-  th {
-    background:#161b22; color:#7d8590; font-weight:600;
-    border-bottom:1px solid #30363d; letter-spacing:1px; font-size:15px;
-  }
-  td { border-bottom:1px solid #21262d; }
+  .head { display:flex; align-items:center; justify-content:space-between; }
+  .head .left { display:flex; align-items:baseline; gap:14px; }
+  .head .num { font-family:'Georgia',serif; font-size:40px; color:#059669; font-weight:700; font-style:italic; line-height:1; }
+  .head .title { font-size:28px; font-weight:700; color:#1e293b; }
+  .head .title em { font-style:normal; color:#059669; }
+  .head .badge { font-family:'Consolas',monospace; font-size:13px; color:#fff; background:#1e293b; padding:5px 14px; border-radius:20px; letter-spacing:1px; }
+  .sub { margin-top:6px; font-size:15px; color:#64748b; }
+  .table-wrap { margin-top:20px; border-radius:10px; overflow:hidden; border:1px solid #e2e8f0; }
+  table { width:100%; border-collapse:collapse; }
+  th { background:#1e293b; color:#fff; padding:12px 18px; text-align:left; font-size:14px; font-weight:600; letter-spacing:1px; }
+  th:first-child { width:24%; }
+  th .arrow { color:#94a3b8; font-size:12px; }
+  td { padding:12px 18px; font-size:16px; border-bottom:1px solid #f1f5f9; }
   tr:last-child td { border-bottom:none; }
-  tr:nth-child(even) td { background:rgba(22,27,34,.5); }
-  .metric { font-family:'Cascadia Code',Consolas,monospace; font-weight:700; }
-  .bad { color:#f85149; } .good { color:#3fb950; } .neu { color:#e6edf3; }
-  .delta { color:#3fb950; font-weight:700; }
-  .note {
-    margin-top:18px; padding:12px 18px; background:rgba(31,111,235,.08);
-    border-left:4px solid #1f6feb; border-radius:6px; font-size:15px; color:#7d8590;
+  tr:nth-child(even) td { background:#f8fafc; }
+  .metric { font-family:'Consolas',monospace; font-weight:700; font-size:17px; }
+  .bad { color:#e11d48; } .good { color:#059669; } .neu { color:#475569; }
+  .delta { font-family:'Consolas',monospace; font-weight:700; font-size:15px; background:#ecfdf5; color:#059669; padding:3px 10px; border-radius:6px; }
+  .bar { display:inline-block; height:6px; border-radius:3px; vertical-align:middle; margin-left:8px; }
+  .bar.bad { background:#e11d48; width:12px; }
+  .bar.good { background:#059669; width:60px; }
+  .note { margin-top:14px; display:flex; align-items:center; gap:10px; font-size:14px; color:#64748b; }
+  .note .dot { width:8px; height:8px; border-radius:50%; background:#059669; }
+  .note b { color:#1e293b; font-weight:600; }
+  .highlight-box {
+    position:absolute; right:56px; bottom:68px;
+    background:linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-radius:10px; padding:13px 18px; transform:rotate(2deg);
+    box-shadow:0 4px 12px rgba(0,0,0,.08); z-index:5;
   }
-  .note b { color:#e6edf3; }
-  .foot {
-    margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end;
-    border-top:1px solid #21262d; padding-top:16px;
-  }
-  .repo { font-family:'Cascadia Code',Consolas,monospace; font-size:18px; color:#1f6feb; font-weight:700; }
-  .idx  { font-family:'Cascadia Code',Consolas,monospace; font-size:15px; color:#30363d; letter-spacing:4px; }
+  .highlight-box .big { font-family:'Georgia',serif; font-size:34px; color:#92400e; font-weight:800; line-height:1; }
+  .highlight-box .label { font-size:11px; color:#78350f; letter-spacing:2px; margin-top:2px; }
+  .foot { position:absolute; left:56px; bottom:22px; right:56px; display:flex; justify-content:space-between; align-items:center; font-family:'Consolas',monospace; font-size:13px; color:#94a3b8; }
+  .foot .repo { color:#3a6b8a; font-weight:600; }
+  .foot .idx { letter-spacing:3px; }
 </style>
 </head>
 <body>
-  <div class="tag"><span class="dot"></span>实测数据 · RK3576 NPU 推理 <span class="num">#03</span></div>
-  <h1>修坑前后对比：<em>84.27 fps</em> 是怎么来的</h1>
-  <div class="sub">同一模型同一板子，只改了工具链与 NPU 调度。</div>
+  <div class="head">
+    <div class="left">
+      <div class="num">03</div>
+      <div class="title">修坑前后对比：<em>84.27 fps</em> 怎么来的</div>
+    </div>
+    <div class="badge">RK3576 · 实测</div>
+  </div>
+  <div class="sub">同一模型同一板子，只改了工具链对齐 + NPU 双核调度</div>
 
-  <table>
-    <tr><th>指标</th><th>修坑前（容器 2.35 编）</th><th>修坑后（对齐 2.31）</th><th>提升</th></tr>
-    <tr>
-      <td>能否上板运行</td>
-      <td><span class="metric bad">崩</span> GLIBC_2.34 not found</td>
-      <td><span class="metric good">✓</span> 正常起推理</td>
-      <td><span class="delta">从 0 到 1</span></td>
-    </tr>
-    <tr>
-      <td>NPU 双核利用率</td>
-      <td><span class="metric bad">0%</span>（fallback 到 CPU）</td>
-      <td><span class="metric good">~92%</span></td>
-      <td><span class="delta">+92 pts</span></td>
-    </tr>
-    <tr>
-      <td>端到端 FPS</td>
-      <td><span class="metric neu">11.4</span></td>
-      <td><span class="metric good">84.27</span></td>
-      <td><span class="delta">×7.4</span></td>
-    </tr>
-    <tr>
-      <td>单帧延迟</td>
-      <td><span class="metric neu">87.7 ms</span></td>
-      <td><span class="metric good">11.87 ms</span></td>
-      <td><span class="delta">÷7.4</span></td>
-    </tr>
-  </table>
+  <div class="table-wrap">
+    <table>
+      <tr><th>指标</th><th>修坑前 <span class="arrow">（容器 2.35）</span></th><th>修坑后 <span class="arrow">（对齐 2.31）</span></th><th>提升</th></tr>
+      <tr><td>能否上板</td><td><span class="metric bad">崩</span> <span style="font-size:13px;color:#94a3b8">GLIBC_2.34</span><span class="bar bad"></span></td><td><span class="metric good">✓</span> 正常起推理<span class="bar good"></span></td><td><span class="delta">0 → 1</span></td></tr>
+      <tr><td>NPU 双核利用率</td><td><span class="metric bad">0%</span> <span style="font-size:13px;color:#94a3b8">fallback CPU</span></td><td><span class="metric good">~92%</span></td><td><span class="delta">+92 pts</span></td></tr>
+      <tr><td>端到端 FPS</td><td><span class="metric neu">11.4</span></td><td><span class="metric good">84.27</span></td><td><span class="delta">×7.4</span></td></tr>
+      <tr><td>单帧延迟</td><td><span class="metric neu">87.7 ms</span></td><td><span class="metric good">11.87 ms</span></td><td><span class="delta">÷7.4</span></td></tr>
+    </table>
+  </div>
 
-  <div class="note">数据来源：<b>ai_video_monitor_rk3576</b> 实测，模型 RKYOLOV5 + 1080p 输入，单核 NPU 跑通后双核并行。</div>
+  <div class="note"><span class="dot"></span>数据来源：<b>ai_video_monitor_rk3576</b> 实测 · YOLOv8n 640×640 · 1080p 输入 · 双核 NPU 并行</div>
+  <div class="highlight-box"><div class="big">×7.4</div><div class="label">FPS 提升</div></div>
 
   <div class="foot">
     <span class="repo">github.com/DczAnt/rk3xx-chip-dev</span>
-    <span class="idx">DATA · 03 / 04</span>
+    <span class="idx">DATA · 03</span>
   </div>
 </body>
 </html>

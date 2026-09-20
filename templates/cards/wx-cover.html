@@ -6,85 +6,98 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
     width:900px; height:383px;
-    background:#0d1117;
+    background:#f7f4ef;
     background-image:
-      radial-gradient(circle at 88% 18%, rgba(31,111,235,.18), transparent 42%),
-      radial-gradient(circle at 12% 88%, rgba(63,185,80,.10), transparent 38%),
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(230,237,243,.025) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(230,237,243,.025) 40px);
-    font-family:'Microsoft YaHei','PingFang SC',sans-serif;
-    color:#e6edf3; display:flex; align-items:stretch;
-    padding:36px 48px; overflow:hidden;
+      radial-gradient(ellipse at 30% 40%, rgba(200,85,45,.04), transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(58,107,138,.05), transparent 50%);
+    font-family:'Georgia','Times New Roman',serif;
+    color:#1a2b3c; display:flex; overflow:hidden; position:relative;
   }
-  .left { flex:1.4; display:flex; flex-direction:column; justify-content:space-between; padding-right:32px; }
+  .noise {
+    position:absolute; inset:0; opacity:.025; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .left {
+    width:560px; padding:42px 36px 36px 52px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    position:relative; z-index:2;
+  }
+  .right {
+    flex:1; background:#1a2b3c; position:relative; overflow:hidden;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+  }
+  .right::before {
+    content:''; position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(135deg, transparent, transparent 20px, rgba(255,255,255,.02) 21px),
+      radial-gradient(circle at 60% 30%, rgba(200,85,45,.15), transparent 60%);
+  }
   .tag {
-    display:inline-flex; align-items:center; gap:10px;
-    font-size:15px; letter-spacing:3px; color:#7d8590;
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Microsoft YaHei',sans-serif; font-size:13px;
+    color:#c8552d; letter-spacing:2px; font-weight:600;
   }
-  .tag .dot { width:8px; height:8px; border-radius:50%; background:#3fb950; box-shadow:0 0 10px #3fb950; }
-  .tag .num { color:#1f6feb; font-family:'Cascadia Code',Consolas,monospace; }
-  h1 { font-size:54px; line-height:1.18; letter-spacing:1px; margin-top:6px; }
-  h1 em { font-style:normal; color:#f85149; }
-  h1 b { font-weight:700; color:#3fb950; }
-  .sub { margin-top:14px; font-size:18px; color:#7d8590; line-height:1.55; }
-  .sub b { color:#e6edf3; font-weight:600; }
+  .tag::before { content:''; width:24px; height:2px; background:#c8552d; }
+  h1 { font-size:46px; line-height:1.18; margin-top:16px; font-weight:700; letter-spacing:-.5px; }
+  h1 .accent { color:#c8552d; font-style:italic; }
+  h1 .num { font-family:'Georgia',serif; color:#3a6b8a; }
+  .sub {
+    margin-top:14px; font-family:'Microsoft YaHei',sans-serif;
+    font-size:15px; color:#5a6c7d; line-height:1.65;
+  }
+  .sub b { color:#1a2b3c; font-weight:600; }
   .repo {
-    font-family:'Cascadia Code',Consolas,monospace; font-size:18px;
-    color:#1f6feb; font-weight:700; letter-spacing:.5px;
+    font-family:'Consolas','Courier New',monospace; font-size:14px;
+    color:#3a6b8a; font-weight:600; letter-spacing:.3px;
+    border-bottom:2px solid #c8552d; padding-bottom:3px; display:inline-block;
   }
-  .repo .arrow { color:#3fb950; margin-right:6px; }
-  .right { flex:1; display:flex; flex-direction:column; justify-content:center; gap:10px; }
-  .term {
-    border-radius:10px; overflow:hidden; border:1px solid #30363d;
-    box-shadow:0 12px 32px rgba(0,0,0,.55);
+  .stamp {
+    position:absolute; top:28px; right:-28px; z-index:3;
+    width:88px; height:88px; border:3px solid #c8552d; border-radius:50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:#c8552d; font-family:'Microsoft YaHei',sans-serif;
+    transform:rotate(-12deg); opacity:.85;
   }
-  .term-bar {
-    background:#161b22; padding:8px 12px; display:flex; align-items:center; gap:6px;
-    border-bottom:1px solid #30363d;
+  .stamp .big { font-size:26px; font-weight:800; line-height:1; }
+  .stamp .small { font-size:9px; letter-spacing:1px; margin-top:2px; }
+  .chip-label {
+    font-family:'Consolas',monospace; font-size:40px; color:#f7f4ef;
+    font-weight:700; letter-spacing:3px; position:relative; z-index:2;
   }
-  .term-bar i { width:9px; height:9px; border-radius:50%; display:block; }
-  .r{background:#f85149}.y{background:#d29922}.g{background:#3fb950}
-  .term-title { margin-left:8px; font-family:'Cascadia Code',Consolas,monospace; font-size:11px; color:#7d8590; }
-  .term-body {
-    background:#0d1117; padding:14px 16px;
-    font-family:'Cascadia Code',Consolas,monospace; font-size:13px; line-height:1.7;
+  .chip-sub {
+    font-family:'Microsoft YaHei',sans-serif; font-size:12px;
+    color:#94a3b8; letter-spacing:6px; margin-top:4px; position:relative; z-index:2;
   }
-  .p { color:#3fb950; } .cmd { color:#e6edf3; } .dim { color:#7d8590; }
-  .err { color:#f85149; font-weight:700; }
-  .ok { color:#3fb950; font-weight:700; }
-  .stat-row { display:flex; gap:18px; margin-top:6px; }
-  .stat { flex:1; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:10px 12px; }
-  .stat .v { font-family:'Cascadia Code',Consolas,monospace; font-size:22px; font-weight:700; }
-  .stat .v.g { color:#3fb950; } .stat .v.b { color:#1f6feb; } .stat .v.r { color:#f85149; }
-  .stat .l { font-size:11px; color:#7d8590; margin-top:2px; letter-spacing:1px; }
+  .chip-stats { margin-top:22px; display:flex; gap:18px; position:relative; z-index:2; }
+  .chip-stats .s { text-align:center; }
+  .chip-stats .v { font-family:'Consolas',monospace; font-size:20px; font-weight:700; }
+  .chip-stats .v.g { color:#10b981; } .chip-stats .v.o { color:#c8552d; }
+  .chip-stats .l { font-family:'Microsoft YaHei',sans-serif; font-size:10px; color:#64748b; margin-top:2px; letter-spacing:1px; }
+  .divider {
+    position:absolute; left:560px; top:0; bottom:0; width:3px;
+    background:linear-gradient(180deg, #c8552d 0%, #1a2b3c 50%, #3a6b8a 100%); z-index:5;
+  }
 </style>
 </head>
 <body>
+  <div class="noise"></div>
   <div class="left">
     <div>
-      <div class="tag"><span class="dot"></span>RK3XX 芯片开发 · 踩坑实录 <span class="num">#03</span></div>
-      <h1>GLIBC <em>2.34</em> 找不到？<br>一次 <b>交叉编译</b> 排查实录</h1>
-      <div class="sub">从容器 2.35 编译到板子 2.31 运行必崩，<br>到 <b>84.27 fps</b> 跑通的全过程。</div>
+      <div class="tag">踩坑实录 · 第 03 期</div>
+      <h1>GLIBC <span class="num">2.34</span><br>找不到？<span class="accent">一条决策树</span><br>终结兼容地狱</h1>
+      <div class="sub">容器编好一上板就崩，<b>十人九中</b>。<br>从三条弯路到三组可复制命令，一次讲透。</div>
     </div>
-    <div class="repo"><span class="arrow">→</span>github.com/DczAnt/rk3xx-chip-dev</div>
+    <div class="repo">→ github.com/DczAnt/rk3xx-chip-dev</div>
   </div>
-
+  <div class="divider"></div>
+  <div class="stamp"><div class="big">56</div><div class="small">坑·已沉淀</div></div>
   <div class="right">
-    <div class="term">
-      <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">cross-compile — bash</span></div>
-      <div class="term-body">
-        <div><span class="p">$</span> <span class="cmd">aarch64-linux-gnu-g++ ...</span></div>
-        <div><span class="dim">./demo: libc.so.6:</span></div>
-        <div><span class="err">version `GLIBC_2.34' not found</span></div>
-        <div><span class="p">$</span> <span class="cmd">ldd --version  # 板子</span></div>
-        <div><span class="dim">ldd (Ubuntu) 2.31-0ubuntu9</span></div>
-        <div><span class="ok">→ 改用 glibc 2.31 工具链重编</span></div>
-      </div>
-    </div>
-    <div class="stat-row">
-      <div class="stat"><div class="v g">84.27</div><div class="l">FPS · RK3576</div></div>
-      <div class="stat"><div class="v b">56</div><div class="l">坑 · 已沉淀</div></div>
-      <div class="stat"><div class="v r">2.31</div><div class="l">GLIBC · 板子</div></div>
+    <div class="chip-label">RK3576</div>
+    <div class="chip-sub">A55 · NEBULA</div>
+    <div class="chip-stats">
+      <div class="s"><div class="v g">84.27</div><div class="l">FPS</div></div>
+      <div class="s"><div class="v o">2.31</div><div class="l">GLIBC</div></div>
+      <div class="s"><div class="v g">×7.4</div><div class="l">提升</div></div>
     </div>
   </div>
 </body>

@@ -5,91 +5,101 @@
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    width:1080px; height:720px;
-    background:#0d1117;
+    width:1080px; height:720px; background:#faf8f3;
     background-image:
-      radial-gradient(circle at 92% 8%, rgba(31,111,235,.12), transparent 45%),
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(230,237,243,.025) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(230,237,243,.025) 40px);
+      linear-gradient(rgba(44,62,80,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(44,62,80,.04) 1px, transparent 1px);
+    background-size:28px 28px;
     font-family:'Microsoft YaHei','PingFang SC',sans-serif;
-    color:#e6edf3; display:flex; flex-direction:column;
-    padding:48px 64px; overflow:hidden;
+    color:#2c3e50; padding:44px 56px; overflow:hidden; position:relative;
   }
-  .tag {
-    display:inline-flex; align-items:center; gap:12px;
-    font-size:18px; letter-spacing:3px; color:#7d8590;
+  .noise {
+    position:absolute; inset:0; opacity:.02; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
   }
-  .tag .dot { width:10px; height:10px; border-radius:50%; background:#3fb950; box-shadow:0 0 10px #3fb950; }
-  .tag .num { color:#1f6feb; font-family:'Cascadia Code',Consolas,monospace; }
-  h1 { font-size:42px; line-height:1.25; margin-top:14px; letter-spacing:1px; }
-  h1 em { font-style:normal; color:#f85149; }
-  .sub { margin-top:8px; font-size:18px; color:#7d8590; }
-  .tree { margin-top:28px; flex:1; display:flex; flex-direction:column; gap:14px; }
-  .q {
-    background:#161b22; border:1px solid #30363d; border-radius:10px;
-    padding:14px 20px; font-family:'Cascadia Code',Consolas,monospace; font-size:18px;
-    color:#e6edf3; align-self:center; min-width:520px; text-align:center;
+  .head { display:flex; align-items:baseline; gap:16px; position:relative; z-index:2; }
+  .head .num { font-family:'Georgia',serif; font-size:50px; color:#c8552d; font-weight:700; line-height:1; font-style:italic; }
+  .head .title { font-size:30px; font-weight:700; letter-spacing:1px; }
+  .head .title em { font-style:normal; color:#c8552d; }
+  .question {
+    margin-top:18px; padding:13px 22px; background:#fef9c3;
+    border-radius:4px 12px 4px 12px; font-size:17px; color:#2c3e50;
+    display:inline-block; position:relative; z-index:2;
+    box-shadow:2px 3px 0 rgba(44,62,80,.08); transform:rotate(-.5deg);
   }
-  .q .p { color:#3fb950; }
-  .branch { display:flex; gap:24px; justify-content:center; }
-  .branch .line {
-    flex:1; max-width:440px; border-radius:10px; padding:16px 20px;
-    border:1px solid #30363d; background:#0d1117;
+  .question code { font-family:'Consolas',monospace; font-size:15px; background:#2c3e50; color:#fef9c3; padding:2px 8px; border-radius:3px; }
+  .branches { margin-top:24px; display:flex; gap:24px; position:relative; z-index:2; }
+  .sticky { flex:1; padding:18px 20px; border-radius:3px 14px 3px 14px; box-shadow:3px 4px 0 rgba(44,62,80,.1); position:relative; }
+  .sticky.bad { background:#fee2e2; transform:rotate(.8deg); }
+  .sticky.good { background:#d1fae5; transform:rotate(-.6deg); }
+  .sticky .cond { font-family:'Consolas',monospace; font-size:13px; font-weight:700; padding:3px 10px; border-radius:3px; display:inline-block; margin-bottom:10px; }
+  .sticky.bad .cond { background:#fca5a5; color:#991b1b; }
+  .sticky.good .cond { background:#6ee7b7; color:#065f46; }
+  .sticky h3 { font-size:16px; margin-bottom:7px; color:#2c3e50; }
+  .sticky .desc { font-size:13px; color:#475569; line-height:1.55; margin-bottom:9px; }
+  .sticky .cmd { font-family:'Consolas',monospace; font-size:12px; color:#2c3e50; background:rgba(255,255,255,.6); padding:7px 10px; border-radius:4px; line-height:1.7; border:1px dashed rgba(44,62,80,.2); }
+  .sticky .cmd .g { color:#059669; } .sticky .cmd .r { color:#dc2626; } .sticky .cmd .d { color:#64748b; }
+  .sticky .result { margin-top:7px; font-family:'Consolas',monospace; font-size:12px; font-weight:700; }
+  .sticky.bad .result { color:#dc2626; }
+  .sticky.good .result { color:#059669; }
+  .conclusion {
+    margin-top:22px; padding:15px 22px; background:#2c3e50; color:#faf8f3;
+    border-radius:8px; font-size:15px; position:relative; z-index:2;
+    display:flex; align-items:center; gap:12px;
   }
-  .branch .line.yes { border-left:5px solid #f85149; background:rgba(248,81,73,.06); }
-  .branch .line.no  { border-left:5px solid #3fb950; background:rgba(63,185,80,.06); }
-  .branch .cond { font-family:'Cascadia Code',Consolas,monospace; font-size:16px; color:#7d8590; margin-bottom:8px; }
-  .branch .cond b { color:#e6edf3; }
-  .branch .act { font-size:17px; line-height:1.55; }
-  .branch .act code {
-    font-family:'Cascadia Code',Consolas,monospace; font-size:15px;
-    background:#161b22; padding:2px 8px; border-radius:4px; color:#3fb950;
-  }
-  .branch .act .bad { color:#f85149; font-weight:700; }
-  .branch .act .good { color:#3fb950; font-weight:700; }
-  .foot {
-    margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end;
-    border-top:1px solid #21262d; padding-top:18px;
-  }
-  .repo { font-family:'Cascadia Code',Consolas,monospace; font-size:18px; color:#1f6feb; font-weight:700; }
-  .idx  { font-family:'Cascadia Code',Consolas,monospace; font-size:15px; color:#30363d; letter-spacing:4px; }
+  .conclusion .icon { color:#fbbf24; font-size:20px; }
+  .conclusion b { color:#fbbf24; }
+  .conclusion code { font-family:'Consolas',monospace; background:rgba(251,191,36,.15); color:#fbbf24; padding:2px 8px; border-radius:3px; font-size:14px; }
+  .foot { position:absolute; left:56px; bottom:22px; right:56px; z-index:2; display:flex; justify-content:space-between; align-items:center; font-family:'Consolas',monospace; font-size:13px; color:#94a3b8; }
+  .foot .repo { color:#3a6b8a; font-weight:600; }
+  .foot .idx { letter-spacing:3px; }
 </style>
 </head>
 <body>
-  <div class="tag"><span class="dot"></span>GLIBC 决策树 · 一图看懂 <span class="num">#03</span></div>
-  <h1>板子报 <em>GLIBC_2.34 not found</em>，怎么办？</h1>
-  <div class="sub">先量两个数，三步定位，别急着换工具链。</div>
+  <div class="noise"></div>
+  <svg style="position:absolute;top:88px;left:470px;z-index:1;" width="120" height="40">
+    <path d="M5,20 Q60,5 110,20" stroke="#c8552d" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+    <polygon points="110,20 104,16 104,24" fill="#c8552d"/>
+  </svg>
 
-  <div class="tree">
-    <div class="q"><span class="p">$</span> ldd --version  &nbsp;# 板子上跑</div>
+  <div class="head">
+    <div class="num">03</div>
+    <div class="title">交叉编译 <em>决策树</em>：选对路径一次过</div>
+  </div>
+  <div class="question">板子报 <code>GLIBC_2.34 not found</code>，先量：<code>ldd --version</code></div>
 
-    <div class="branch">
-      <div class="line yes">
-        <div class="cond">板子 glibc &lt; <b>2.34</b>（如 2.31）</div>
-        <div class="act">
-          <span class="bad">✗</span> 容器 2.35 编译的产物 <b>必崩</b><br>
-          <span class="good">✓</span> 换 <code>ubuntu:20.04</code> 基础镜像重编<br>
-          <span class="good">✓</span> 或 <code>--sysroot=板子fs</code> 直接对齐
-        </div>
-      </div>
-      <div class="line no">
-        <div class="cond">板子 glibc ≥ <b>2.34</b></div>
-        <div class="act">
-          <span class="good">✓</span> 产物可直接跑<br>
-          <span class="good">✓</span> 若仍报错 → 查 <code>LD_LIBRARY_PATH</code><br>
-          <span class="good">✓</span> 静态链接 <code>-static</code> 兜底
-        </div>
-      </div>
+  <div class="branches">
+    <div class="sticky bad">
+      <span class="cond">glibc &lt; 2.34</span>
+      <h3>容器 2.35 直编</h3>
+      <div class="desc">产物埋了 2.34 符号引用，板子没有 → 必崩</div>
+      <div class="cmd"><span class="r">✗</span> ./demo<br><span class="d">version `GLIBC_2.34' not found</span></div>
+      <div class="result">✗ 拒绝加载</div>
     </div>
-
-    <div class="q" style="min-width:640px;">
-      <span class="p">$</span> readelf -d demo | grep NEEDED  &nbsp;# 看依赖的 GLIBC_2.xx 上界
+    <div class="sticky good">
+      <span class="cond">glibc &lt; 2.34</span>
+      <h3>对齐工具链重编</h3>
+      <div class="desc">用板子 sysroot 的 crt 三要素</div>
+      <div class="cmd"><span class="g">✓</span> --sysroot=board_fs<br><span class="g">✓</span> -nostartfiles + Scrt1.o</div>
+      <div class="result">✓ 正常运行</div>
     </div>
+    <div class="sticky good">
+      <span class="cond">或 -static</span>
+      <h3>静态链接兜底</h3>
+      <div class="desc">零 libc 依赖，体积大但最稳</div>
+      <div class="cmd"><span class="g">✓</span> g++ -static -o demo<br><span class="d">not a dynamic executable</span></div>
+      <div class="result">✓ 任何板子能跑</div>
+    </div>
+  </div>
+
+  <div class="conclusion">
+    <span class="icon">💡</span>
+    <span>记住一条：<b>板子 glibc = 编译容器 glibc</b>，或直接 <code>-static</code>。别急着换工具链。</span>
   </div>
 
   <div class="foot">
     <span class="repo">github.com/DczAnt/rk3xx-chip-dev</span>
-    <span class="idx">DECISION TREE · 02 / 04</span>
+    <span class="idx">DECISION TREE · 02</span>
   </div>
 </body>
 </html>
