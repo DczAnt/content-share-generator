@@ -46,6 +46,7 @@ examples/                    # 已验证成品范例（few-shot 对照）
 | 朋友圈 / 图文 / 九宫格 | `templates/moments.md` | 正文文案 + 配图清单 + 发布技巧 |
 | 抖音 / 短视频 / 口播脚本 | `templates/douyin-script.md` | 分镜表（时间/画面/口播/字幕）+ 发布配套 |
 | 公众号 / 知乎 / CSDN / 技术文章 / 长文 | `templates/tech-article.md` | Markdown 长文，可直接粘贴发布 |
+| 朋友圈/分享配图 | `templates/cards/`（README 有渲染命令） | HTML 图卡模板 → Edge 无头渲染 1080×1440 PNG，直接可发 |
 
 > 双平台同题联动：同一选题先产技术长文（深度版），再蒸馏出朋友圈/抖音版（钩子版），引用同一套数字。
 

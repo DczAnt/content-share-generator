@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1080px; height:1440px;
+    background:#0d1117;
+    background-image:
+      radial-gradient(circle at 50% -10%, rgba(31,111,235,.28), transparent 55%),
+      radial-gradient(circle at 90% 105%, rgba(63,185,80,.10), transparent 40%);
+    font-family:'Microsoft YaHei','PingFang SC',sans-serif;
+    color:#e6edf3; display:flex; flex-direction:column; align-items:center;
+    padding:88px 80px; overflow:hidden; text-align:center;
+  }
+  .mark {
+    width:128px; height:128px; border-radius:32px; background:#161b22;
+    border:1px solid #30363d; display:flex; align-items:center; justify-content:center;
+    font-family:'Cascadia Code',Consolas,monospace; font-size:64px; color:#3fb950;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+  }
+  .name {
+    margin-top:52px; font-family:'Cascadia Code',Consolas,monospace;
+    font-size:84px; font-weight:700; letter-spacing:-1px;
+  }
+  .name .r{color:#3fb950} .name .p{color:#e6edf3}
+  .sub { margin-top:24px; font-size:36px; color:#7d8590; line-height:1.7; }
+  .sub b { color:#e6edf3; font-weight:600; }
+
+  .stats { margin-top:64px; display:flex; gap:24px; }
+  .stat {
+    background:rgba(22,27,34,.85); border:1px solid #30363d; border-radius:16px;
+    padding:34px 30px; width:280px;
+  }
+  .stat .v {
+    font-family:'Cascadia Code',Consolas,monospace; font-size:56px; font-weight:700; color:#3fb950;
+  }
+  .stat .v.blue{color:#4493f8}
+  .stat .k { margin-top:12px; font-size:26px; color:#7d8590; }
+
+  .agents { margin-top:56px; font-size:27px; color:#7d8590; letter-spacing:1px; }
+  .agents code {
+    font-family:'Cascadia Code',Consolas,monospace; color:#79c0ff; margin:0 6px;
+  }
+
+  .cta {
+    margin-top:auto; width:100%; background:linear-gradient(90deg,#1f6feb22,#3fb95022);
+    border:2px solid #30363d; border-radius:20px; padding:40px 20px;
+  }
+  .cta .label { font-size:28px; color:#7d8590; letter-spacing:6px; }
+  .cta .url {
+    margin-top:18px; font-family:'Cascadia Code',Consolas,monospace;
+    font-size:44px; font-weight:700; color:#e6edf3; word-break:break-all;
+  }
+  .cta .url .hl{color:#3fb950}
+</style>
+</head>
+<body>
+  <div class="mark">&lt;/&gt;</div>
+  <div class="name"><span class="r">rk3xx</span><span class="p">-chip-dev</span></div>
+  <div class="sub">给 AI 编程助手的 <b>Rockchip 芯片开发"记忆"</b><br>坑踩一次，之后所有项目不再踩</div>
+
+  <div class="stats">
+    <div class="stat"><div class="v">56+46</div><div class="k">陷阱 + 准则</div></div>
+    <div class="stat"><div class="v blue">6</div><div class="k">款芯片支持</div></div>
+    <div class="stat"><div class="v">4.2×</div><div class="k">实战性能提升</div></div>
+  </div>
+
+  <div class="agents">
+    支持 <code>CodeArts</code><code>Cursor</code><code>Claude Code</code> 等智能体 · Apache-2.0 开源
+  </div>
+
+  <div class="cta">
+    <div class="label">G I T H U B 开 源</div>
+    <div class="url">github.com/DczAnt/<span class="hl">rk3xx-chip-dev</span></div>
+  </div>
+</body>
+</html>
